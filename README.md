@@ -1,157 +1,306 @@
-🎙️ AI Mock Interview Studio (Face-to-Face)
-An interactive, high-fidelity Mock Interview platform built with Next.js and FastAPI. This studio allows candidates to practice technical interviews with an AI agent that speaks, listens, and records the session.
+🎯 AI Career Advisor
 
-🌟 Key Features
-Manual Camera Authority: You have total control. The interview only begins once you manually enable the camera.
+An end-to-end AI-powered career development platform that identifies skill gaps, generates personalized learning roadmaps, conducts proctored certification exams, and automatically upgrades your resume with verified skills.
 
-AI Voice Interaction (TTS): The interviewer speaks questions aloud using a natural cadence.
 
-Voice-to-Text (STT): Respond naturally using your microphone; the AI transcribes your answers in real-time.
+📋 Table of Contents
 
-Hindsight Memory: The AI maintains the full context of the conversation, allowing for follow-up questions and a final performance analysis.
+What This Project Does
+Live Demo Walkthrough
+Features
+Tech Stack
+Setup Instructions
+Docker Setup
+Project Structure
+Skill Gap Analysis — Logic Overview
+Adaptive Pathing Algorithm
+API Endpoints
+Dependencies
 
-Session Recording: Record your entire interview (video + audio) and download it as a .webm file for self-review.
 
-Live Transcript: A synchronized sidebar that logs every exchange for visual reference.
+What This Project Does
+Most job seekers don't know exactly which skills they're missing for a specific role. AI Career Advisor solves this by:
 
-🛠️ Tech Stack
-Frontend: Next.js 14, Tailwind CSS, Lucide React.
+Reading your resume and a job description — extracts and compares skills using Llama 3.3 70B
+Identifying the exact gaps — tells you which skills the JD requires that your resume doesn't have
+Building a personalised roadmap — generates a curated learning path with real course links (YouTube, Udemy, Coursera, NPTEL)
+Testing you on each skill — runs a 10-question AI-proctored adaptive exam per module
+Upgrading your resume automatically — injects verified skills into your resume and exports a professional PDF
 
-APIs: Web Speech API (SpeechSynthesis & SpeechRecognition).
 
-Backend: Python (FastAPI / Flask).
+🎬 Live Demo Walkthrough (For Examiners)
+Follow these steps in order to see the complete end-to-end journey:
+Step 1 — Create an Account
 
-AI Model: Integrated via OpenAI GPT-4o or equivalent via your custom backend.
+Open http://localhost:3000 (or http://localhost if using Docker)
+Click Sign Up
+Enter a username and password (minimum 4 characters)
+Click Create Account → you will be redirected to the dashboard
 
-🚀 Installation & Setup
-1. Prerequisites
-Node.js (v18+)
+Step 2 — Analyse Your Skill Gaps
 
-Python (v3.10+)
+On the dashboard, upload two PDF files:
 
-Google Chrome or Microsoft Edge (Required for Web Speech API support)
+Resume PDF — the candidate's current resume
+Job Description PDF — the target job posting
 
-2. Backend Setup
-3. Frontend Setup
-Visit http://localhost:3000 to start your session.
 
-🧠 Understanding "Hindsight Memory"
-This project uses a Stateful History approach.
+Click Identify Technical Gaps
+Wait 10–15 seconds for the AI to process both documents
+You will see:
 
-Frontend: Stores the entire conversation in a React messages state.
+A reasoning summary from the AI
+Red skill badges showing exactly what is missing
+The candidate's name is automatically extracted
 
-Payload: Every time you send a message, the entire history is sent to the /api/chat endpoint.
 
-Hindsight: Because the backend receives the full transcript, it can "look back" at your earlier answers to ask challenging follow-up questions or provide a final score.
 
-Note: For the best hindsight analysis, ensure your backend system prompt includes:
-"You are an expert interviewer. Analyze previous answers in the history to find inconsistencies or areas for deeper technical diving."
 
-📁 Project Structure
-⚠️ Known Browser Policies
-Most modern browsers (Chrome/Edge) block Autoplay Audio.
+💡 Sample files for testing: Use any software engineer resume and any software engineer job description from LinkedIn or Naukri saved as PDFs.
 
-The Fix: You must click anywhere on the page once after it loads to "unlock" the AI's voice engine.
+Step 3 — Generate the Roadmap
 
-Trigger: The AI greeting is programmed to trigger specifically when the Camera is toggled ON.
+Click Build Personalized Roadmap
+Wait 10–15 seconds
+A 3-module learning path appears, each containing:
 
-🤝 Contributing
-If you'd like to improve the Hindsight Analysis or add new Interview Personas, feel free to fork this repo and submit a pull request!
+The skill to learn
+A syllabus of sub-topics
+Clickable course links from YouTube, Udemy, Coursera, and NPTEL
+Recommended effort time
+AI guidance reasoning
 
-🎙️ AI Mock Interview Studio (Face-to-Face)
-An interactive, high-fidelity Mock Interview platform built with Next.js and FastAPI. This studio allows candidates to practice technical interviews with an AI agent that speaks, listens, and records the session.
 
-🚀 How to Run the Project
-Follow these steps in order to get the full Face-to-Face experience working.
 
-1. Prerequisites
-Node.js (v18 or higher)
+Step 4 — Take a Skill Certification Exam
 
-Python (v3.10 or higher)
+Check the "I've completed this module" checkbox on any roadmap module
+Click START SKILL VERIFICATION TEST
+You are taken to the AI Exam Studio
+Answer 10 questions — difficulty escalates automatically:
 
-Browser: Google Chrome or Microsoft Edge (Required for Web Speech API support)
+Questions 1–3: Easy (definitions, syntax)
+Questions 4–9: Moderate (scenarios, logic)
+Question 10: Hard (optimisation, edge cases)
 
-2. Run the Backend (Python)
-Open a new terminal window:
 
-Bash
+You can answer by typing or using the microphone (voice input)
+After 10 answers, the AI evaluates your performance
+Pass (8/10 correct): Confetti 🎉 + "Skill Certified!" screen
+Fail: "Unverified Proficiency" screen with retry option
 
-# 1. Navigate to the backend folder
-cd backend
+Step 5 — Evolve Your Resume
 
-# 2. Create a virtual environment (Recommended)
+Navigate to Resume Evolution in the sidebar
+Upload your original resume PDF again
+Click Evolve My Resume
+The AI rewrites the resume with:
+
+Verified skills added to the Skills section
+New bullet points under relevant work experience
+An "AI-Verified Certifications" section listing each passed exam
+
+
+Preview all sections on screen
+Click Download Evolved Resume (.pdf) to save the updated document
+
+Step 6 — Track Your Progress
+
+Navigate to Skill Gap Analysis in the sidebar
+See Pending Gaps (skills not yet verified) vs Verified Skills (exams passed)
+Profile Match % updates dynamically as you pass more exams
+Click Test Now on any pending gap to jump straight to that exam
+
+Step 7 — Sign Out and Sign Back In
+
+Click Sign Out at the bottom of the sidebar
+Sign back in with the same username and password
+Your roadmap, gaps, and verified skills are automatically restored
+Header shows "Welcome back, [Name]" for returning users
+
+
+✨ Features
+FeatureDescription🔐 Auth SystemUsername + password login. SHA-256 hashed passwords. Unique username enforcement.📄 PDF Skill Gap AnalysisUpload Resume + JD PDFs. Llama 3.3 70B extracts and compares skills.🗺️ Personalized Roadmap3-module learning path per gap. Course links from 4 platforms only.🎙️ AI Mock Interview10-question proctored exam. Progressive difficulty. Voice input supported.📈 Adaptive DifficultyQ1–3 Easy → Q4–9 Moderate → Q10 Hard. Automated by question counter.📝 Resume EvolutionAI injects verified skills into resume structure. Exports formatted PDF.✅ Skill VerificationPass 8/10 → VERIFIED_MASTERY stored. Skills removed from pending gaps list.💾 User PersistenceAll data stored in memory.json. Restored automatically on next login.🔄 Session ContinuityRoadmap, gaps, verified skills all restored on returning user login.📊 Gap TrackerLive dashboard showing pending vs verified skills with match percentage.
+
+🛠 Tech Stack
+LayerTechnologyPurposeFrontendNext.js 14, React 18, TypeScriptUI frameworkStylingTailwind CSS, Framer MotionStyling and animationsBackendFastAPI (Python 3.11), UvicornREST API serverLLMLlama 3.3 70B via Groq APIAll AI reasoningPDF ParsingpypdfExtract text from uploaded PDFsPDF GenerationReportLabGenerate evolved resume PDFAuthhashlib SHA-256Password hashingStorageJSON file (memory.json)Lightweight user persistenceProxyNginx (Docker only)Routes frontend/backend traffic
+
+⚙️ Setup Instructions
+Prerequisites
+
+Node.js 20 or higher
+Python 3.11 or higher
+A free Groq API key → get one at https://console.groq.com
+
+
+Option A — Run Locally (Recommended for Development)
+1. Clone the repository
+bashgit clone https://github.com/YOUR_USERNAME/ai-career-advisor.git
+cd ai-career-advisor
+2. Backend setup
+bashcd backend
 python -m venv venv
 
-# 3. Activate the environment
-# On Windows: 
-venv\Scripts\activate
-# On Mac/Linux: 
-source venv/bin/activate
+# Activate virtual environment
+source venv/bin/activate        # Mac / Linux
+venv\Scripts\activate           # Windows
 
-# 4. Install requirements
+# Install dependencies
 pip install -r requirements.txt
-
-# 5. Start the server (Port 8000)
-uvicorn main:app --reload
-3. Run the Frontend (Next.js)
-Open a second terminal window:
-
-Bash
-
-# 1. Navigate to the frontend folder
-cd frontend
-
-# 2. Install dependencies
+Create a .env file inside backend/:
+GROQ_API_KEY=your_groq_api_key_here
+Start the backend:
+bashuvicorn main:app --reload --port 8000
+Backend will be live at: http://localhost:8000
+3. Frontend setup
+Open a new terminal:
+bashcd frontend
 npm install
-
-# 3. Start the development server (Port 3000)
 npm run dev
-4. Start the Interview
-Open your browser to http://localhost:3000.
+Open your browser at: http://localhost:3000
 
-Important: Click once anywhere on the white background (this "unlocks" the AI's voice engine for Chrome).
+Option B — Docker (For Judges / Reproducible Environment)
+Prerequisites
 
-Click the Camera Icon in the video box.
+Docker Desktop installed and running
 
-The AI will detect your camera and say: "Hello! I am your interviewer today..."
+Steps
+bash# 1. Clone the repo
+git clone https://github.com/YOUR_USERNAME/ai-career-advisor.git
+cd ai-career-advisor
 
-🌟 Key Features
-Manual Camera Authority: You have total control. The interview only begins once you manually enable the camera.
+# 2. Create a .env file in the ROOT folder
+echo "GROQ_API_KEY=your_groq_api_key_here" > .env
 
-AI Voice Interaction (TTS): The interviewer speaks questions aloud using a natural cadence.
+# 3. Build and run all containers
+docker-compose up --build
+Open your browser at: http://localhost
 
-Voice-to-Text (STT): Respond naturally using your microphone; the AI transcribes your answers in real-time.
+Note: First build takes 3–5 minutes. Subsequent starts are fast.
 
-Hindsight Memory: The AI maintains the full context of the conversation, allowing for follow-up questions and a final performance analysis.
+To stop:
+bashdocker-compose down
 
-Session Recording: Record your entire interview (video + audio) and download it as a .webm file for self-review.
+🐳 Docker Architecture
+Browser
+  │
+  ├── localhost:80   → Nginx → Frontend container (Next.js :3000)
+  └── localhost:8000 → Nginx → Backend container  (FastAPI :8000)
+No frontend code changes needed — Nginx transparently proxies all localhost:8000 API calls to the backend container.
 
 📁 Project Structure
-Plaintext
-
-├── frontend/
-│   ├── app/
-│   │   └── studio/page.tsx   # Main Interview Logic
-│   └── package.json          # Frontend dependencies
+ai-career-advisor-main/
+├── docker-compose.yml          # Orchestrates all 3 containers
+├── nginx.conf                  # Reverse proxy config
+├── .env                        # Root env (GROQ_API_KEY for Docker)
+├── README.md
+│
 ├── backend/
-│   ├── main.py               # FastAPI Logic & AI Integration
-│   └── requirements.txt      # Python dependencies
-└── README.md                 # Project Documentation
-🧠 Understanding "Hindsight Memory"
-This project uses a Stateful History approach.
+│   ├── main.py                 # All FastAPI endpoints + business logic
+│   ├── memory.json             # Auto-created user data store
+│   ├── requirements.txt        # Python dependencies
+│   ├── .env                    # Backend env (GROQ_API_KEY for local dev)
+│   └── Dockerfile
+│
+└── frontend/
+    ├── app/
+    │   ├── page.tsx                    # Dashboard (skill gap + roadmap)
+    │   ├── login/page.tsx              # Login + Signup page
+    │   ├── mock-interview/page.tsx     # AI Exam Studio
+    │   ├── resume-evolution/page.tsx   # Resume upgrader + PDF export
+    │   └── skill-gap-analysis/page.tsx # Gap tracker + progress
+    ├── next.config.mjs
+    ├── package.json
+    └── Dockerfile
 
-Frontend: Stores the entire conversation in a React messages state.
+🧠 Skill Gap Analysis — Logic Overview
+Resume PDF ──┐
+             ├──► pypdf text extraction
+JD PDF ──────┘         │
+                        ▼
+              Llama 3.3 70B prompt:
+              "Extract name, skills_found,
+               skills_missing, reasoning"
+                        │
+                        ▼
+              Structured JSON response
+              { name, skills_found,
+                skills_missing, reasoning }
+                        │
+                        ▼
+              Each missing skill stored as:
+              "Gap Identified: <skill>"
+              in memory.json
+                        │
+                        ▼
+              Roadmap generation:
+              Gaps → LLM → 3-module path
+              with YouTube/Udemy/Coursera/NPTEL
+              search URLs (never hallucinated links)
+Key design decisions:
 
-Payload: Every time you send a message, the entire history is sent to the /api/chat endpoint.
+Temperature 0.1 for gap analysis (maximum accuracy)
+Temperature 0.5 for roadmap (some creativity for course suggestions)
+unquote_plus() decodes URL-encoded gap strings before passing to LLM
+Search URLs used instead of direct course links to avoid broken/hallucinated URLs
 
-Analysis: Because the backend receives the full transcript, it can "look back" at your earlier answers to provide a final score.
 
-⚠️ Known Browser Policies
-Most modern browsers block Autoplay Audio.
+🎯 Adaptive Pathing Algorithm
+The exam difficulty is controlled entirely by a question counter (q_num) tracked server-side:
+pythonuser_msgs = [m for m in request.messages if m.get('role') == 'user']
+q_num = len(user_msgs) + 1
 
-The Fix: You must click anywhere on the page once after it loads to "unlock" the AI's voice engine.
+if q_num <= 3:
+    level = "Foundational/Easy — Syntax, definitions, core concepts"
+elif q_num <= 9:
+    level = "Application-based/Moderate — Scenario handling, common logic"
+else:
+    level = "Deep Logic/Hard — Optimization, edge cases, complex problems"
+Pass criteria: 8 out of 10 correct answers (evaluated by LLM after Q10)
+On pass: VERIFIED_MASTERY: <topic> written to memory.json
+On fail: User is shown retry option and directed back to the roadmap
+The system prompt also enforces exam silence — no feedback or hints are given between questions, maintaining test integrity.
 
-The Trigger: The AI greeting is programmed to trigger specifically when the Camera is toggled ON.
+🔌 API Endpoints
+MethodEndpointDescriptionPOST/api/signupCreate new user (username + hashed password)POST/api/loginAuthenticate user, return profile dataPOST/api/analyze-gapUpload resume + JD PDFs, returns skill gapsGET/api/generate-roadmapGenerate 3-module roadmap from stored gapsPOST/api/chatSend exam answer, receive next questionPOST/api/evolve-resumeAI rewrites resume with verified skillsPOST/api/generate-resume-docxExport evolved resume as PDFGET/api/check-user?name=XCheck if user exists, restore their dataGET/api/hindsightReturn raw memory feedGET/api/all-usersList all users (debug endpoint)GET/Health check
 
-🤝 Contributing
-Feel free to fork this repo and submit a pull request!
+📦 Dependencies
+Backend (requirements.txt)
+fastapi
+uvicorn
+python-multipart
+groq
+python-dotenv
+pypdf
+reportlab
+pydantic
+Frontend (package.json key packages)
+next: 14.x
+react: 18.x
+typescript
+tailwindcss
+framer-motion
+lucide-react
+canvas-confetti
+
+🔑 Environment Variables
+VariableWhereDescriptionGROQ_API_KEYbackend/.envRequired for local developmentGROQ_API_KEY.env (root)Required for Docker deployment
+Get your free API key at: https://console.groq.com
+
+📝 Notes for Judges
+
+The app uses a single JSON file (memory.json) as the database — intentionally lightweight and inspectable
+All AI responses are structured JSON — the LLM is never allowed to return free text for data endpoints
+Passwords are SHA-256 hashed server-side and never returned to the frontend
+The roadmap uses search URLs (not direct links) to guarantee zero broken links
+Voice input works in Chrome and Edge only (Web Speech API limitation)
+The resume PDF export uses ReportLab — pure Python, no external services
+
+
+👩‍💻 Built With
+
+Groq — Ultra-fast LLM inference
+Meta Llama 3.3 70B — Foundation model
+FastAPI — Backend framework
+Next.js — Frontend framework
+ReportLab — PDF generation
