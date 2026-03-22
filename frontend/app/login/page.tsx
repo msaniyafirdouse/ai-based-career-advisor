@@ -79,43 +79,62 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-indigo-900 to-violet-900 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#050505] text-white flex items-center justify-center p-6 relative overflow-hidden">
+      
+      {/* ── STARFIELD BACKGROUND ────────────────────────────────────── */}
+      {/* Layer 1: Small dense stars */}
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.15)_1px,transparent_1px)] [background-size:20px_20px] opacity-40" />
+      
+      {/* Layer 2: Larger sparse stars */}
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.4)_1px,transparent_1px)] [background-size:60px_60px] opacity-30" />
 
-      {/* Background blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/5 rounded-full blur-3xl" />
-      </div>
+      {/* ── NEBULA GLOWS (The "Orbit" aesthetic) ─────────────────────── */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] opacity-30" />
+      <div className="absolute bottom-[-200px] right-[-200px] w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-[120px]" />
+      <div className="absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px]" />
 
+      {/* ── MAIN CARD ─────────────────────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative w-full max-w-md"
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, type: "spring" }}
+        className="relative w-full max-w-md z-10"
       >
-        <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-10 shadow-2xl">
+        {/* Card Glass Effect */}
+        <div className="relative bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[2rem] p-10 shadow-2xl shadow-black/50">
+          
+          {/* Decorative top glow line */}
+          <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-indigo-500/80 to-transparent" />
 
-          {/* Logo */}
-          <div className="flex flex-col items-center mb-8">
-            <div className="w-16 h-16 bg-indigo-500/20 border border-indigo-400/30 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/20">
-              <BrainCircuit className="w-8 h-8 text-indigo-300" />
+          {/* LOGO SECTION */}
+          <div className="flex flex-col items-center mb-10">
+            {/* Animated Orbit Ring around Icon */}
+            <div className="relative w-20 h-20 flex items-center justify-center mb-5">
+               <div className="absolute inset-0 rounded-full border border-indigo-500/20 animate-[spin_8s_linear_infinite]" />
+               <div className="absolute inset-2 rounded-full border border-t-indigo-400/40 border-r-transparent border-b-transparent border-l-transparent animate-[spin_3s_linear_infinite]" />
+               
+               <div className="w-14 h-14 bg-gradient-to-tr from-indigo-600 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                 <BrainCircuit className="w-7 h-7 text-white" />
+               </div>
             </div>
-            <h1 className="text-2xl font-black text-white tracking-tight">AI Career Advisor</h1>
-            <p className="text-indigo-300 text-sm mt-1 font-medium">Your personalised growth platform</p>
+
+            <h1 className="text-2xl font-bold text-white tracking-tight">Career Advisor</h1>
+            <p className="text-zinc-400 text-sm mt-2 text-center max-w-[240px]">
+              Your personalised AI for career growth.
+            </p>
           </div>
 
-          {/* Mode toggle */}
-          <div className="flex bg-white/5 border border-white/10 rounded-2xl p-1 mb-8">
+          {/* MODE TOGGLE */}
+          <div className="flex bg-white/5 border border-white/10 rounded-2xl p-1.5 mb-8">
             {(['login', 'signup'] as Mode[]).map(m => (
               <button
                 key={m}
                 type="button"
                 onClick={() => { setMode(m); clearForm(); }}
-                className={`flex-1 py-2.5 rounded-xl text-sm font-black transition-all duration-200 ${
+                className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${
                   mode === m
-                    ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/30'
-                    : 'text-indigo-400 hover:text-indigo-200'
+                    ? 'bg-white text-black shadow-lg'
+                    : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
                 {m === 'login' ? 'Sign In' : 'Sign Up'}
@@ -123,41 +142,41 @@ export default function LoginPage() {
             ))}
           </div>
 
-          {/* Success states */}
+          {/* STATUS ANIMATIONS */}
           <AnimatePresence mode="wait">
             {status === 'success_returning' && (
               <motion.div key="ret" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                 className="py-8 text-center">
-                <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/20">
                   <span className="text-3xl">👋</span>
                 </div>
-                <p className="text-emerald-300 font-black text-xl">Welcome back, {username}!</p>
-                <p className="text-emerald-400/60 text-sm mt-2">Restoring your progress...</p>
+                <p className="text-emerald-400 font-bold text-xl">Welcome back!</p>
+                <p className="text-zinc-500 text-sm mt-2">Restoring your progress...</p>
               </motion.div>
             )}
 
             {status === 'success_new' && (
               <motion.div key="new" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                 className="py-8 text-center">
-                <div className="w-16 h-16 bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-3xl">✨</span>
+                <div className="w-16 h-16 bg-indigo-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-indigo-500/20">
+                  <span className="text-3xl">🚀</span>
                 </div>
-                <p className="text-indigo-200 font-black text-xl">Welcome, {username}!</p>
-                <p className="text-indigo-300/60 text-sm mt-2">Setting up your profile...</p>
+                <p className="text-white font-bold text-xl">Account Created</p>
+                <p className="text-zinc-500 text-sm mt-2">Preparing your dashboard...</p>
               </motion.div>
             )}
 
             {status === 'idle' && (
               <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                onSubmit={handleSubmit} className="space-y-4">
+                onSubmit={handleSubmit} className="space-y-5">
 
-                {/* Username */}
+                {/* USERNAME INPUT */}
                 <div>
-                  <label className="block text-[11px] font-black text-indigo-300 uppercase tracking-widest mb-2">
+                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-2 ml-1">
                     Username
                   </label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400" />
+                  <div className="relative group">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-indigo-400 transition-colors" />
                     <input
                       type="text"
                       value={username}
@@ -165,84 +184,89 @@ export default function LoginPage() {
                       placeholder="Enter your username"
                       autoFocus
                       autoComplete="username"
-                      className="w-full bg-white/5 border border-white/10 text-white placeholder:text-indigo-400/40 rounded-2xl pl-11 pr-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400/40 focus:border-indigo-400/40 transition-all"
+                      className="w-full bg-white/[0.03] border border-white/10 text-white placeholder:text-zinc-700 rounded-xl pl-11 pr-5 py-4 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 focus:bg-white/[0.05] transition-all"
                     />
                   </div>
                 </div>
 
-                {/* Password */}
+                {/* PASSWORD INPUT */}
                 <div>
-                  <label className="block text-[11px] font-black text-indigo-300 uppercase tracking-widest mb-2">
+                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-2 ml-1">
                     Password
                   </label>
-                  <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400" />
+                  <div className="relative group">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-indigo-400 transition-colors" />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       value={password}
                       onChange={e => { setPassword(e.target.value); setError(''); }}
-                      placeholder={mode === 'signup' ? 'Create a password (min 4 chars)' : 'Enter your password'}
+                      placeholder={mode === 'signup' ? 'Create a password' : 'Enter your password'}
                       autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-                      className="w-full bg-white/5 border border-white/10 text-white placeholder:text-indigo-400/40 rounded-2xl pl-11 pr-12 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400/40 focus:border-indigo-400/40 transition-all"
+                      className="w-full bg-white/[0.03] border border-white/10 text-white placeholder:text-zinc-700 rounded-xl pl-11 pr-12 py-4 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 focus:bg-white/[0.05] transition-all"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(s => !s)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-400 hover:text-indigo-200 transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-white transition-colors"
                     >
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
                 </div>
 
-                {/* Error message */}
+                {/* ERROR MESSAGE */}
                 <AnimatePresence>
                   {error && (
                     <motion.div
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="bg-red-500/10 border border-red-400/30 rounded-xl px-4 py-3"
+                      className="bg-rose-500/10 border border-rose-500/20 rounded-xl px-4 py-3"
                     >
-                      <p className="text-red-300 text-[12px] font-semibold">{error}</p>
+                      <p className="text-rose-400 text-xs font-medium">{error}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
 
-                {/* Info note for signup */}
+                {/* INFO NOTE */}
                 {mode === 'signup' && (
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex gap-3">
-                    <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <p className="text-indigo-300/70 text-[11px] leading-relaxed">
-                      Your username must be unique. Your roadmap, skill gaps, and certifications will be saved to your account.
+                  <div className="bg-indigo-500/5 border border-indigo-500/10 rounded-xl p-4 flex gap-3">
+                    <Sparkles className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                    <p className="text-zinc-400 text-[11px] leading-relaxed">
+                      Your resume data and roadmaps will be securely linked to this account.
                     </p>
                   </div>
                 )}
 
-                {/* Submit */}
+                {/* SUBMIT BUTTON */}
                 <button
                   type="submit"
                   disabled={isLoading || !username.trim() || !password.trim()}
-                  className="w-full bg-indigo-500 hover:bg-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed text-white font-black py-4 rounded-2xl flex items-center justify-center gap-3 transition-all shadow-xl shadow-indigo-500/20 hover:scale-[1.02] active:scale-95 mt-2"
+                  className="w-full bg-white text-black font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-all hover:bg-zinc-200 disabled:opacity-30 disabled:cursor-not-allowed shadow-lg shadow-white/5 relative overflow-hidden group"
                 >
-                  {isLoading
-                    ? <><Loader2 className="animate-spin w-5 h-5" /> {mode === 'login' ? 'Signing in...' : 'Creating account...'}</>
-                    : <><ArrowRight className="w-5 h-5" /> {mode === 'login' ? 'Sign In' : 'Create Account'}</>
-                  }
+                  {/* Shimmer effect on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                  
+                  <span className="relative z-10 flex items-center gap-2 text-sm">
+                    {isLoading
+                      ? <><Loader2 className="animate-spin w-4 h-4" /> {mode === 'login' ? 'Verifying...' : 'Creating...'}</>
+                      : <><span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span> <ArrowRight className="w-4 h-4" /></>
+                    }
+                  </span>
                 </button>
 
-                {/* Switch mode link */}
-                <p className="text-center text-indigo-400/60 text-[12px] pt-1">
+                {/* SWITCH MODE */}
+                <p className="text-center text-zinc-600 text-xs pt-2">
                   {mode === 'login'
-                    ? <>Don't have an account?{' '}
+                    ? <>New to Career Advisor?{' '}
                         <button type="button" onClick={() => { setMode('signup'); clearForm(); }}
-                          className="text-indigo-300 font-black hover:text-white transition-colors underline underline-offset-2">
-                          Sign up
+                          className="text-indigo-400 font-bold hover:text-white transition-colors">
+                          Create an account
                         </button>
                       </>
                     : <>Already have an account?{' '}
                         <button type="button" onClick={() => { setMode('login'); clearForm(); }}
-                          className="text-indigo-300 font-black hover:text-white transition-colors underline underline-offset-2">
+                          className="text-indigo-400 font-bold hover:text-white transition-colors">
                           Sign in
                         </button>
                       </>
@@ -253,8 +277,8 @@ export default function LoginPage() {
           </AnimatePresence>
         </div>
 
-        <p className="text-center text-indigo-400/40 text-[11px] mt-6 font-medium">
-          Passwords are hashed and stored securely · No email required
+        <p className="text-center text-zinc-700 text-[10px] mt-6 font-medium uppercase tracking-wider">
+          Secure Connection · No email required
         </p>
       </motion.div>
     </div>
